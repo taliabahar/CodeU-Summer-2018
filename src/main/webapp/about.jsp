@@ -16,13 +16,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Baker's Dozen CodeU Chat App</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
   <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+    <a id="navTitle" href="/">Baker's Dozen CodeU Chat App</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
@@ -36,10 +36,15 @@
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>About the CodeU Chat App</h1>
+      <h1>About the Baker's Dozen CodeU Chat App</h1>
       <p>
-        This is an example chat application designed to be a starting point
-        for your CodeU project team work. Here's some stuff to think about:
+        The Baker's Dozen Chat App began as a Google CodeU chat app template from which we built
+        off of throughout the 2018 Summer. Born and bred on the West Coast with a passion for Computer Science and problem solving,
+        the Baker's Dozen team consists of Los Angeles natives Gaby Cortes and Talia Bahar and Bay Area native Luke Mujica.
+        This Chat App represents a combination of the unique skill sets we came into the prgram with in conjunction with the
+        new knowledge we gained from our Google mentors (Shoutout Edrei Chua), peers, and each other.
+
+        Here's some stuff to think about:
       </p>
 
       <ul>
