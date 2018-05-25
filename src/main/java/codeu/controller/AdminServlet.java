@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet class responsible for the login page. */
+/** Servlet class responsible for the admin page. */
 public class AdminServlet extends HttpServlet {
 
   /**
@@ -29,7 +29,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Illegal Post request - This address does not handle Post requests");
   }
 
 }
