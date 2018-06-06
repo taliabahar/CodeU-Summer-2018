@@ -14,11 +14,20 @@
 
 package codeu.controller;
 
-import codeu.model.data.User;
-import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
+import org.mindrot.jbcrypt.BCrypt;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+
+import codeu.model.data.User;
+import codeu.model.data.Conversation;
+import codeu.model.data.Message;
+import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.MessageStore;
+import codeu.model.store.basic.ConversationStore;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,7 +57,54 @@ public class AdminServletTest {
 
   @Test
   public void testDoGet() throws IOException, ServletException {
+
+    List<User> users = new ArrayList<>();
+    users.add(new User(UUID.randomUUID(), "user1",BCrypt.hashpw("user1", BCrypt.gensalt()), Instant.now()));
+    users.add(new User(UUID.randomUUID(), "wordiest",BCrypt.hashpw("wordiest", BCrypt.gensalt()), Instant.now()));
+    users.add(new User(UUID.randomUUID(), "most active",BCrypt.hashpw("most active", BCrypt.gensalt()), Instant.now()));
+    users.add(new User(UUID.randomUUID(), "most recent",BCrypt.hashpw("most recent", BCrypt.gensalt()), Instant.now()));
+
+    List<Conversation> conversations = new ArrayList<>();
+    conversations.add(new Conversation(UUID.randomUUID(), users.get(0).getId(), "convo 1", Instant.now()));
+    conversations.add(new Conversation(UUID.randomUUID(), users.get(0).getId(), "convo 2", Instant.now()));
+
+    List<Message> messages = new ArrayList<>();
+    messages.add(new Message(UUID.randomUUID(), conversations.get(0).getId(), users.get(1).getId(), "This is an awful lot of words in one message and should win wordiest user.", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(2).getId(), "This", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(2).getId(), "user", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(2).getId(), "messages", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(2).getId(), "a", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(2).getId(), "lot", Instant.now()));
+    messages.add(new Message(UUID.randomUUID(), conversations.get(1).getId(), users.get(3).getId(), "I also message but not enough for awards.", Instant.now()));
+
+    UserStore mockUserStore = Mockito.mock(UserStore.class);
+    MessageStore mockMessageStore = Mockito.mock(MessageStore.class);
+    ConversationStore mockConversationStore = Mockito.mock(ConversationStore.class);
+
+    Mockito.when(mockUserStore.getAllUsers()).thenReturn(users);
+    Mockito.when(mockMessageStore.getAllMessages()).thenReturn(messages);
+    Mockito.when(mockConversationStore.getAllConversations()).thenReturn(conversations);
+
+    Mockito.when(mockUserStore.getUser(users.get(0).getId())).thenReturn(users.get(0));
+    Mockito.when(mockUserStore.getUser(users.get(1).getId())).thenReturn(users.get(1));
+    Mockito.when(mockUserStore.getUser(users.get(2).getId())).thenReturn(users.get(2));
+    Mockito.when(mockUserStore.getUser(users.get(3).getId())).thenReturn(users.get(3));
+
+    adminServlet.setUserStore(mockUserStore);
+    adminServlet.setMessageStore(mockMessageStore);
+    adminServlet.setConversationStore(mockConversationStore);
+
+    HashMap<String, String> stats = new HashMap<>();
+    stats.put("number of conversations", "2");
+    stats.put("number of messages", "7");
+    stats.put("number of users", "4");
+    stats.put("newest user", "most recent");
+    stats.put("most active user", "most active");
+    stats.put("wordiest user", "wordiest");
+
     adminServlet.doGet(mockRequest, mockResponse);
+
+    Mockito.verify(mockRequest).setAttribute("statistics map", stats);
 
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
