@@ -14,6 +14,7 @@
 
 package codeu.controller;
 
+import com.google.common.collect.ImmutableSet;
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 
   /** Store class that gives access to Users. */
   private UserStore userStore;
+  private static final ImmutableSet<String> ADMINS = ImmutableSet.of("Luke", "Talia", "Gaby", "Edrei", "Admin");
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -84,6 +86,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     request.getSession().setAttribute("user", username);
+    if (ADMINS.contains(username)) {
+      request.getSession().setAttribute("admin", "admin");
+    }
     response.sendRedirect("/conversations");
   }
 }

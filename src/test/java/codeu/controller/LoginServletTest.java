@@ -95,4 +95,33 @@ public class LoginServletTest {
     Mockito.verify(mockSession).setAttribute("user", "test username");
     Mockito.verify(mockResponse).sendRedirect("/conversations");
   }
+
+  @Test
+  public void testDoPost_ExistingAdminUser() throws IOException, ServletException {
+    User user =
+        new User(
+            UUID.randomUUID(),
+            "Admin",
+            "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa",
+            Instant.now());
+
+    Mockito.when(mockRequest.getParameter("username")).thenReturn("Admin");
+    Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+
+    UserStore mockUserStore = Mockito.mock(UserStore.class);
+    Mockito.when(mockUserStore.isUserRegistered("Admin")).thenReturn(true);
+    Mockito.when(mockUserStore.getUser("Admin")).thenReturn(user);
+    loginServlet.setUserStore(mockUserStore);
+
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
+
+    loginServlet.doPost(mockRequest, mockResponse);
+
+    Mockito.verify(mockUserStore, Mockito.never()).addUser(Mockito.any(User.class));
+    Mockito.verify(mockSession).setAttribute("user", "Admin");
+    Mockito.verify(mockSession).setAttribute("admin", "admin");
+    Mockito.verify(mockResponse).sendRedirect("/conversations");
+  }
+
 }
