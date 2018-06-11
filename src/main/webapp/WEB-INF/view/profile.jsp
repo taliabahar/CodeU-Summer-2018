@@ -21,7 +21,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ada's Profile Page</title>
+  <title>Profile Page</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -38,8 +38,7 @@
 	<a href="/users/<%=request.getSession().getAttribute("user")%>">My Profile</a>
   </nav>
 
-  <div id="container">
-    <h1>Ada's Profile Page</h1>
+  <div id="container"><h1><%=request.getSession().getAttribute("user")%> 's Profile Page</h1>
 
     <% if(request.getAttribute("error") != null){ %>
         <h2 style="color:red"><%= request.getAttribute("error") %></h2>
@@ -50,38 +49,30 @@
       <br/>
       <input type="text" name="about me" id="about me"value="" style="width:600px; height:90px;">
       <br/>
-      <!--<button type="submit">Submit</button>-->
-    </form>
-	
+    </form>	
 	<hr/>
-	
 
-    <h1>Ada's Sent Messages</h1
+    <h1><%=request.getSession().getAttribute("user")%> 's Sent Messages</h1>
 	 <br/>
-      <input type="text" name="about me" id="about me"value="" style="width:600px; height:150px;">
-      <br/>
+      <input type="text" style="width:600px; height:150px;">
+     <br/>
 	
 	<%
     List<Conversation> conversations =
       (List<Conversation>) request.getAttribute("conversations");
-    if(conversations == null || conversations.isEmpty()){
-    %>
-      
-	 
-    <%
-    }
-    else{
-    %>
-      <ul class="mdl-list">
-    <%
-      for(Conversation conversation : conversations){
-    %>
-      <li><a href="/chat/<%= conversation.getTitle() %>">
-        <%= conversation.getTitle() %></a></li>
-    <%
-      }
-    %>
-      </ul>
+
+	if(conversations != null && !conversations.isEmpty()){
+	%>
+	<ul class="mdl-list">
+	<%
+	for(Conversation conversation : conversations){
+	%>
+	<li><a href="/chat/<%= conversation.getTitle() %>">
+		<%= conversation.getTitle() %></a></li>
+	<%
+	}
+	%>
+     </ul>
     <%
     }
     %>
