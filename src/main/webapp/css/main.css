@@ -14,28 +14,30 @@
  */
 
 body {
-  margin: 0;
-  font-family: sans-serif;
-  line-height: 1.6;
-  font-size: 18px;
-  line-height: 1.6;
   color: #444;
   background-color: #eeeeee;
+  font-family: sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 nav {
-  background-color: #283593;
+  background-color: #A1E4FF;
 }
 
 nav a {
   color: white;
   display: inline-block;
-  font-size: 24px;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
   margin: 15px;
   text-decoration: none;
 }
 
 #navTitle {
+  color: #FDFCB0;
+  font-family: 'Jockey One', sans-serif;
   font-size: 36px;
 }
 
@@ -49,10 +51,34 @@ h1 {
   color: #757575;
 }
 
+#welcome-bullets {
+  font-size: 20px;
+}
+
 input {
   font-size: 18px;
 }
 
 button {
   font-size: 18px;
+}
+
+.BBCodeDropdown {
+  display: inline-block;
+  padding-top: 10px;
+  position: relative;
+}
+
+.dropdown-content {
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: none;
+  min-width: 400px;
+  position: absolute;
+  padding: 8px 10px;
+  z-index: 1;
+}
+
+.BBCodeDropdown:hover .dropdown-content {
+  display: block;
 }

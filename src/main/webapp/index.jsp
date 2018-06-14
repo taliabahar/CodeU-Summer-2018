@@ -30,7 +30,7 @@
       <h1>Baker's Dozen Chat App</h1>
       <h2>Welcome!</h2>
 
-      <ul>
+      <ul id="welcome-bullets">
         <li><a href="/login">Login</a> to get started.</li>
         <li>Go to the <a href="/conversations">conversations</a> page to
             create or join a conversation.</li>
