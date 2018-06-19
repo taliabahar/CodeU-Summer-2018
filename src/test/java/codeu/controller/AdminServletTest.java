@@ -90,9 +90,7 @@ public class AdminServletTest {
     Mockito.when(mockUserStore.getUser(users.get(2).getId())).thenReturn(users.get(2));
     Mockito.when(mockUserStore.getUser(users.get(3).getId())).thenReturn(users.get(3));
 
-    adminServlet.setUserStore(mockUserStore);
-    adminServlet.setMessageStore(mockMessageStore);
-    adminServlet.setConversationStore(mockConversationStore);
+    adminServlet.initializeDataStores(mockUserStore, mockMessageStore, mockConversationStore);
 
     HashMap<String, String> stats = new HashMap<>();
     stats.put("number of conversations", "2");
