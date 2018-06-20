@@ -123,7 +123,7 @@ public class AdminServlet extends HttpServlet {
   * @return the User who has sent the most messages
   */
   private static User getMostActiveUser(HashMap<UUID, Integer> numMessages) {
-    UUID mostMessageId = numMessages.entrySet()
+    UUID mostMessagesID = numMessages.entrySet()
             .stream()
             .max(Comparator.comparingInt(entry -> entry.getValue()))
             .get()
