@@ -16,6 +16,7 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.ArrayList;
 
 /** Class representing a registered user. */
 public class User {
@@ -23,6 +24,7 @@ public class User {
   private final String name;
   private final String passwordHash;
   private final Instant creation;
+  private List<Notification> notifications;
 
   /**
    * Constructs a new User.
@@ -37,6 +39,7 @@ public class User {
     this.name = name;
     this.passwordHash = passwordHash;
     this.creation = creation;
+    notifications = new ArrayList<>();
   }
 
   /** Returns the ID of this User. */
@@ -48,7 +51,7 @@ public class User {
   public String getName() {
     return name;
   }
-  
+
   /** Returns the password hash of this User. */
   public String getPasswordHash() {
     return passwordHash;
