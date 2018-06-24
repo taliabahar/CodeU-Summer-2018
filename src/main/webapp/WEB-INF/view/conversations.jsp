@@ -53,7 +53,7 @@
       (List<Conversation>) request.getAttribute("conversations");
     if(conversations == null || conversations.isEmpty()){
     %>
-      <p>Create a conversation to get started Ada's Sent Messages.</p>
+      <p>Create a conversation to get started.</p>
     <%
     }
     else{

@@ -16,7 +16,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.User" %>
+<%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="codeu.model.data.User" %>
 
+
+<%
+	UserStore userStore = UserStore.getInstance();
+	User user = userStore.getUser((String)request.getSession().getAttribute("user"));
+%>
 
 <!DOCTYPE html>
 <html>
@@ -27,46 +34,19 @@
 <body>
   <%@ include file = "/WEB-INF/view/header.jsp" %>
 
-  <div id="container"><h1><%=request.getSession().getAttribute("user")%> 's Profile Page</h1>
+ <div id="container"><h1><%=request.getSession().getAttribute("user")%> 's Profile Page</h1>
 
-    <% if(request.getAttribute("error") != null){ %>
-        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <form action ="/profile" method="POST">
+	  <h3>My Bio: </h3>
+		<p> <%= user.getAboutMe() %> </p> 
+        <label for = "About Me" > Write your About Me: </label>
+        <br>
+		<input type= "text" name= "About Me" id= "about me" value="" style= "width: 600px; height: 40px;">
+		<br/>
+        <input type="Submit">
+       </form>
     <% } %>
-
-    <form action="/profile" method="POST">
-      <label for="about me">Edit your About Me: </label>
-      <br/>
-      <input type="text" name="about me" id="about me"value="" style="width:600px; height:90px;">
-      <br/>
-    </form>	
-	<hr/>
-
-    <h1><%=request.getSession().getAttribute("user")%> 's Sent Messages</h1>
-	 <br/>
-      <input type="text" style="width:600px; height:150px;">
-     <br/>
-	
-	<%
-    List<Conversation> conversations =
-      (List<Conversation>) request.getAttribute("conversations");
-
-	if(conversations != null && !conversations.isEmpty()){
-	%>
-	<ul class="mdl-list">
-	<%
-	for(Conversation conversation : conversations){
-	%>
-	<li><a href="/chat/<%= conversation.getTitle() %>">
-		<%= conversation.getTitle() %></a></li>
-	<%
-	}
-	%>
-     </ul>
-    <%
-    }
-    %>
-    <hr/>
-
   </div>
 </body>
 </html>

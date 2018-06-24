@@ -19,10 +19,27 @@ import org.jsoup.safety.Whitelist;
 
 /** Servlet class responsible for the profile page. */
 public class ProfileServlet extends HttpServlet {
+	 private User user;
+	 //private UserStore userStore;
 	  
 	 @Override
 	 public void doGet(HttpServletRequest request, HttpServletResponse response)
 		      throws IOException, ServletException {
 		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);		 
+	 }
+	 
+	 @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    		throws IOException, ServletException {
+		 
+	        String username = (String) request.getSession().getAttribute("user");
+	        user = UserStore.getInstance().getUser(username);
+
+	        if (username != null) {
+	            String aboutMe = request.getParameter("About Me");
+	            user.setAboutMe(aboutMe);
+	            UserStore.getInstance().updateUser(user);
+	            response.sendRedirect("/profile");
+	        }
 	 }
 }
