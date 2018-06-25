@@ -34,12 +34,13 @@
 <body>
   <%@ include file = "/WEB-INF/view/header.jsp" %>
 
- <div id="container"><h1><%=request.getSession().getAttribute("user")%> 's Profile Page</h1>
-
+<div id="container">
     <% if(request.getSession().getAttribute("user") != null){ %>
+		
+	  <h1> <%= user.getName() %> 's Profile Page </h1>
       <form action ="/profile" method="POST">
 	  <h3>My Bio: </h3>
-		<p> <%= user.getAboutMe() %> </p> 
+		<p> <%= user.getAboutMe() %> Page </p> 
         <label for = "About Me" > Write your About Me: </label>
         <br>
 		<input type= "text" name= "About Me" id= "about me" value="" style= "width: 600px; height: 40px;">
