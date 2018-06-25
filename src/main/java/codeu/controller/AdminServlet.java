@@ -40,7 +40,8 @@ public class AdminServlet extends HttpServlet {
    * Sets the UserStore, MessageStore, and ConversationStore used by this servlet. This function provides a common setup method for use
    * by the test framework or the servlet's init() function.
    */
-  @VisibleForTesting void initializeDataStores(UserStore userStore, MessageStore messageStore, ConversationStore conversationStore) {
+  @VisibleForTesting void initializeDataStores(
+      UserStore userStore, MessageStore messageStore, ConversationStore conversationStore) {
     this.userStore = userStore;
     this.messageStore = messageStore;
     this.conversationStore = conversationStore;
@@ -87,7 +88,8 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Illegal Post request - This address does not handle Post requests");
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                           "Illegal Post request - This address does not handle Post requests");
   }
 
   /*
@@ -109,34 +111,28 @@ public class AdminServlet extends HttpServlet {
     HashMap<UUID, Integer> numWords = new HashMap<>();
     for (Message m : messages) {
       UUID userID = m.getAuthorId();
-      if (!numWords.containsKey(userID)) {
-        numWords.put(userID, 0);
-      }
       numWords.put(userID, numWords.getOrDefault(userID, 0) + getNumWords(m.getContent()));
     }
     return numWords;
   }
 
   /*
-  * This function users the number of messages each user has sent to determine and return the User who has sent the most messages
+  * This function uses the number of messages each user has sent to determine and return the User who has sent the most messages
   *
   * @param numMessages - HashMap that maps the UUID of users to the number of messages that user has sent
   * @return the User who has sent the most messages
   */
   private static User getMostActiveUser(HashMap<UUID, Integer> numMessages) {
-    int mostMessages = 0;
-    UUID mostMessagesID = null;
-    for (Map.Entry<UUID, Integer> entry : numMessages.entrySet()) {
-      if (entry.getValue() > mostMessages) {
-        mostMessages = entry.getValue();
-        mostMessagesID = entry.getKey();
-      }
-    }
+    UUID mostMessagesID = numMessages.entrySet()
+            .stream()
+            .max(Comparator.comparingInt(entry -> entry.getValue()))
+            .get()
+            .getKey();
     return userStore.getUser(mostMessagesID);
   }
 
   /*
-  * This function users the number of messages and the number of words each user has sent to determine
+  * This function uses the number of messages and the number of words each user has sent to determine
   * which User sends the most words in each message on average.
   *
   * @param numMessages - HashMap that maps the UUID of users to the number of messages that user has sent
@@ -161,7 +157,7 @@ public class AdminServlet extends HttpServlet {
   }
 
   /*
-  * Returns teh User who most recently registered.
+  * Returns the User who most recently registered.
   *
   * @return the most recent User
   */
