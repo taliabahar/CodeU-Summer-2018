@@ -44,7 +44,7 @@
       <label for = "aboutme" > Write your About Me: </label>
       <br>
 				<input type= "text" name= "aboutme" id= "aboutme" value="" style= "width: 600px; height: 40px;">
-			<br/>
+			<br/> 
       <input type="Submit">
     </form>
     <% } %>
