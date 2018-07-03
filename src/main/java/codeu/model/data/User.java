@@ -61,14 +61,13 @@ public class User {
     return creation;
   }
   
-
   /** Returns the about me of the user */
   public String getAboutMe(){
     return aboutMe;
   }
 
   /** Sets the User's about me */
-  public void setAboutMe (String about){
-    aboutMe = about;
+  public void setAboutMe (String aboutMe){
+    this.aboutMe = aboutMe;
   }
 }

@@ -20,7 +20,6 @@ import org.jsoup.safety.Whitelist;
 /** Servlet class responsible for the profile page. */
 public class ProfileServlet extends HttpServlet {
 	private User user;
-	 //private UserStore userStore;
 	 
 	 @Override
 	 public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -32,7 +31,7 @@ public class ProfileServlet extends HttpServlet {
 		 user = UserStore.getInstance().getUser(username);
 		 
 		 if(username != null){
-			 String aboutMe = request.getParameter("about_me");
+			 String aboutMe = request.getParameter("aboutme");
 			 user.setAboutMe(aboutMe);
 			 UserStore.getInstance().updateUser(user);
 			 response.sendRedirect("/profile");

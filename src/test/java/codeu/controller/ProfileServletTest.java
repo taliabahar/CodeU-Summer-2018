@@ -45,13 +45,3 @@ public class ProfileServletTest {
 		  Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 	  }
 }
-
-	
-	
-	
- 
-  
-  
-  
-  
-  

@@ -38,12 +38,12 @@
     <% if(request.getSession().getAttribute("user") != null){ %>
 		
 	  <h1> <%= user.getName() %> 's Profile Page </h1>
+	  <h3>My Bio: </h3> 
+	  <p> <%= user.getAboutMe() %></p>
       <form action ="/profile" method="POST">
-	  <h3>My Bio: </h3>
-		<p> <%= user.getAboutMe() %></p> 
-        <label for = "About Me" > Write your About Me: </label>
+        <label for = "aboutme" > Write your About Me: </label>
         <br>
-		<input type= "text" name= "About Me" id= "aboutme" value="" style= "width: 600px; height: 40px;">
+		<input type= "text" name= "aboutme" id= "aboutme" value="" style= "width: 600px; height: 40px;">
 		<br/>
         <input type="Submit">
        </form>
