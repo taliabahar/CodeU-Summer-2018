@@ -43,7 +43,7 @@
 		<p> <%= user.getAboutMe() %></p> 
         <label for = "About Me" > Write your About Me: </label>
         <br>
-		<input type= "text" name= "About Me" id= "about me" value="" style= "width: 600px; height: 40px;">
+		<input type= "text" name= "About Me" id= "aboutme" value="" style= "width: 600px; height: 40px;">
 		<br/>
         <input type="Submit">
        </form>
