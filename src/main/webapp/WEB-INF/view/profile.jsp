@@ -40,13 +40,13 @@
 	  <h1> <%= user.getName() %> 's Profile Page </h1>
 	  <h3>My Bio: </h3> 
 	  <p> <%= user.getAboutMe() %></p>
-      <form action ="/profile" method="POST">
-        <label for = "aboutme" > Write your About Me: </label>
-        <br>
-		<input type= "text" name= "aboutme" id= "aboutme" value="" style= "width: 600px; height: 40px;">
-		<br/>
-        <input type="Submit">
-       </form>
+    <form action ="/profile" method="POST">
+      <label for = "aboutme" > Write your About Me: </label>
+      <br>
+				<input type= "text" name= "aboutme" id= "aboutme" value="" style= "width: 600px; height: 40px;">
+			<br/>
+      <input type="Submit">
+    </form>
     <% } %>
   </div>
 </body>
