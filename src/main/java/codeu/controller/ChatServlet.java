@@ -189,6 +189,7 @@ public class ChatServlet extends HttpServlet {
             text,
             Instant.now());
       mentionedUser.addNotification(notification);
+      userStore.updateUser(mentionedUser);
     }
 
     // redirect to a GET request
