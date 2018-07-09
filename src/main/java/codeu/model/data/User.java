@@ -25,6 +25,7 @@ public class User {
   private final String passwordHash;
   private final Instant creation;
   private ArrayList<Notification> notifications;
+  private String aboutMe;
 
   /**
    * Constructs a new User.
@@ -39,6 +40,7 @@ public class User {
     this.name = name;
     this.passwordHash = passwordHash;
     this.creation = creation;
+    this.aboutMe = "";
     notifications = new ArrayList<>();
   }
 
@@ -65,5 +67,15 @@ public class User {
   /** Returns the creation time of this User. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  /** Returns the about me of the user */
+  public String getAboutMe(){
+    return aboutMe;
+  }
+
+  /** Sets the User's about me */
+  public void setAboutMe (String aboutMe){
+    this.aboutMe = aboutMe;
   }
 }
