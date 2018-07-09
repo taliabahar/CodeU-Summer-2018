@@ -53,4 +53,15 @@ public class Notification {
   public Instant getCreationTime() {
     return creation;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Notification)) {
+      return false;
+    }
+    if (o == this) {
+      return true;
+    }
+    return ((Notification) o).getId().equals(id);
+  }
 }

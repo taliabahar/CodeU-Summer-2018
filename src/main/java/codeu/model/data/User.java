@@ -44,9 +44,21 @@ public class User {
     notifications = new ArrayList<>();
   }
 
-  /** adds this Notification to this User's list of notifications */
+  /** Adds this Notification to this User's list of notifications */
   public void addNotification(Notification n) {
     notifications.add(n);
+  }
+
+  /** Returns the List of the Notifications this User has */
+  public ArrayList<Notification> getNotifications() {
+    return notifications;
+  }
+
+  /** Removes this Notification from this User
+  * @param n the Notification to be removed
+  */
+  public void removeNotification(Notification n) {
+    notifications.remove(n);
   }
 
   /** Returns the ID of this User. */
