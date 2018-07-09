@@ -17,6 +17,8 @@ package codeu.controller;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Notification;
+import org.mindrot.jbcrypt.BCrypt;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
@@ -211,4 +213,40 @@ public class ChatServletTest {
 
     Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
   }
+
+  @Test
+  public void testDoPost_AddsNotificationsFromMentions() throws IOException, ServletException {
+      Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+      Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+
+      User mockUser1 = Mockito.mock(User.class);
+      User mockUser2 = Mockito.mock(User.class);
+      Mockito.when(mockUserStore.getUser("test_username")).thenReturn(mockUser1);
+      Mockito.when(mockUserStore.getUser("user1")).thenReturn(mockUser2);
+
+      Conversation fakeConversation =
+          new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+      Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+          .thenReturn(fakeConversation);
+
+      Mockito.when(mockRequest.getParameter("message")).thenReturn("@user1 and @test_username are valid users and should generate notifications but @nonexistent_user should not.");
+
+      chatServlet.doPost(mockRequest, mockResponse);
+
+      ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
+      Mockito.verify(mockMessageStore).addMessage(messageArgumentCaptor.capture());
+
+      ArgumentCaptor<Notification> notificationArgumentCaptor1 = ArgumentCaptor.forClass(Notification.class);
+      Mockito.verify(mockUser1).addNotification(notificationArgumentCaptor1.capture());
+      Assert.assertEquals("You were mentioned in Message " + messageArgumentCaptor.getValue().getId().toString(), notificationArgumentCaptor1.getValue().getText());
+
+      ArgumentCaptor<Notification> notificationArgumentCaptor2 = ArgumentCaptor.forClass(Notification.class);
+      Mockito.verify(mockUser2).addNotification(notificationArgumentCaptor2.capture());
+      Assert.assertEquals("You were mentioned in Message " + messageArgumentCaptor.getValue().getId().toString(), notificationArgumentCaptor2.getValue().getText());
+
+      Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
+
+
+  }
+
 }

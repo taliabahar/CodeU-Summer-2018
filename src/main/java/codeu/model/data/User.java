@@ -24,7 +24,7 @@ public class User {
   private final String name;
   private final String passwordHash;
   private final Instant creation;
-  private List<Notification> notifications;
+  private ArrayList<Notification> notifications;
 
   /**
    * Constructs a new User.
@@ -40,6 +40,11 @@ public class User {
     this.passwordHash = passwordHash;
     this.creation = creation;
     notifications = new ArrayList<>();
+  }
+
+  /** adds this Notification to this User's list of notifications */
+  public void addNotification(Notification n) {
+    notifications.add(n);
   }
 
   /** Returns the ID of this User. */
