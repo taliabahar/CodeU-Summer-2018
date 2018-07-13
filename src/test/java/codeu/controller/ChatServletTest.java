@@ -238,11 +238,11 @@ public class ChatServletTest {
 
       ArgumentCaptor<Notification> notificationArgumentCaptor1 = ArgumentCaptor.forClass(Notification.class);
       Mockito.verify(mockUser1).addNotification(notificationArgumentCaptor1.capture());
-      Assert.assertEquals("You were mentioned in Message " + messageArgumentCaptor.getValue().getId().toString(), notificationArgumentCaptor1.getValue().getText());
+      Assert.assertEquals(messageArgumentCaptor.getValue().getId(), notificationArgumentCaptor1.getValue().getMessageId());
 
       ArgumentCaptor<Notification> notificationArgumentCaptor2 = ArgumentCaptor.forClass(Notification.class);
       Mockito.verify(mockUser2).addNotification(notificationArgumentCaptor2.capture());
-      Assert.assertEquals("You were mentioned in Message " + messageArgumentCaptor.getValue().getId().toString(), notificationArgumentCaptor2.getValue().getText());
+      Assert.assertEquals(messageArgumentCaptor.getValue().getId(), notificationArgumentCaptor2.getValue().getMessageId());
 
       Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
 

@@ -17,6 +17,7 @@ package codeu.model.data;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Class representing a registered user. */
 public class User {
@@ -24,7 +25,7 @@ public class User {
   private final String name;
   private final String passwordHash;
   private final Instant creation;
-  private ArrayList<Notification> notifications;
+  private List<Notification> notifications;
   private String aboutMe;
 
   /**
@@ -50,7 +51,7 @@ public class User {
   }
 
   /** Returns the List of the Notifications this User has */
-  public ArrayList<Notification> getNotifications() {
+  public List<Notification> getNotifications() {
     return notifications;
   }
 

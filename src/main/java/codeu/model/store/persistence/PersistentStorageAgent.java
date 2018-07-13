@@ -17,6 +17,8 @@ package codeu.model.store.persistence;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+
+import codeu.model.data.Notification;
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
 
@@ -70,6 +72,16 @@ public class PersistentStorageAgent {
   }
 
   /**
+   * Retrieve all Notification objects from the Datastore service. The returned list may be empty.
+   *
+   * @throws PersistentDataStoreException if an error was detected during the load from the
+   *     Datastore service
+   */
+  public List<Notification> loadNotifications() throws PersistentDataStoreException {
+    return persistentDataStore.loadNotifications();
+  }
+
+  /**
    * Retrieve all Conversation objects from the Datastore service. The returned list may be empty.
    *
    * @throws PersistentDataStoreException if an error was detected during the load from the
@@ -92,6 +104,11 @@ public class PersistentStorageAgent {
   /** Write a User object to the Datastore service. */
   public void writeThrough(User user) {
     persistentDataStore.writeThrough(user);
+  }
+
+  /** Write a Notification object to the Datastore service. */
+  public void writeThrough(Notification notification) {
+    persistentDataStore.writeThrough(notification);
   }
 
   /** Write a Message object to the Datastore service. */

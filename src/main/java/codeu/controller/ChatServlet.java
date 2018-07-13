@@ -186,7 +186,6 @@ public class ChatServlet extends HttpServlet {
             UUID.randomUUID(),
             mentionedUser.getId(),
             message.getId(),
-            text,
             Instant.now());
       mentionedUser.addNotification(notification);
       userStore.updateUser(mentionedUser);
