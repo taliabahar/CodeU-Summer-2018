@@ -134,5 +134,6 @@ button {
 .userMentioned {
   font-weight: bold;
   font-style: italic;
-  color: #FDFCB0;
+  color: #444;
+  text-shadow: 2px 1px #A1E4FF;
 }
