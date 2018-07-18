@@ -16,6 +16,11 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+
 
 /** Class representing a registered user. */
 public class User {
@@ -70,4 +75,5 @@ public class User {
   public void setAboutMe (String aboutMe){
     this.aboutMe = aboutMe;
   }
+  
 }

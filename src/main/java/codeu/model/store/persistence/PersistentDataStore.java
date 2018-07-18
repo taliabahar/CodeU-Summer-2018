@@ -67,8 +67,10 @@ public class PersistentDataStore {
         String userName = (String) entity.getProperty("username");
         String passwordHash = (String) entity.getProperty("password_hash");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        String aboutme = (String) entity.getProperty("aboutme");
         User user = new User(uuid, userName, passwordHash, creationTime);
         users.add(user);
+        user.setAboutMe(aboutme);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
         // occur include network errors, Datastore service errors, authorization errors,
@@ -156,6 +158,7 @@ public class PersistentDataStore {
     userEntity.setProperty("username", user.getName());
     userEntity.setProperty("password_hash", user.getPasswordHash());
     userEntity.setProperty("creation_time", user.getCreationTime().toString());
+    userEntity.setProperty("aboutme", user.getAboutMe());
     datastore.put(userEntity);
   }
 

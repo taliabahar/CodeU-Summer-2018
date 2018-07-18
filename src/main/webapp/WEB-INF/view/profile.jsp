@@ -18,6 +18,11 @@
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%@ page import="codeu.model.data.User" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.time.Instant" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.ZoneId" %>
+<%@ page import="codeu.model.data.Message" %>
 
 
 <%
@@ -48,6 +53,14 @@
         <input type="Submit">
        </form>
     <% } %>
-  </div>
+  
+	<h3><%= user.getName() + "'s"%> Sent Messages</h3>
+	<% List<Message> messagesSent = (List) request.getAttribute("messages");
+		for (Message message: messagesSent) { %>
+			<a><strong> <%=message.getTime() %> </strong> : <%= message.getContent() %></a>
+			<br/>
+	<% } %>
+	
+</div>  
 </body>
 </html>

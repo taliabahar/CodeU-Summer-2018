@@ -20,13 +20,40 @@ import org.jsoup.safety.Whitelist;
 /** Servlet class responsible for the profile page. */
 public class ProfileServlet extends HttpServlet {
 	private User user;
+	private MessageStore messageStore;
+	private UserStore userStore;
+	
+	@Override
+
+  public void init() throws ServletException {
+		super.init();
+		setMessageStore(MessageStore.getInstance());
+		setUserStore(UserStore.getInstance());
+	}
+	
+	void setMessageStore(MessageStore messageStore) {
+    this.messageStore = messageStore;
+    }
+	
+	void setUserStore(UserStore userStore) {
+    this.userStore = userStore;
+    }
 	 
-	 @Override
+	 @Override 
 	 public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+
+		 UUID userid = user.getId();
+		 MessageStore message = MessageStore.getInstance();
+		 List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
+		 request.setAttribute("user", user);
+		 request.setAttribute("messages", messagesSent);
+		 
+		 request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
 	 }
-	 
 	 public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		 //String requestUrl = request.getRequestURI();
+		 //String userProfile = requestUrl.substring("/profile/".length());
+		 
 		 String username = (String) request.getSession().getAttribute("user");
 		 user = UserStore.getInstance().getUser(username);
 		 
@@ -34,7 +61,7 @@ public class ProfileServlet extends HttpServlet {
 			 String aboutMe = request.getParameter("aboutme");
 			 user.setAboutMe(aboutMe);
 			 UserStore.getInstance().updateUser(user);
-			 response.sendRedirect("/profile");
+			 response.sendRedirect("/profile/" + username);
 		 } 
 	 }
 }
