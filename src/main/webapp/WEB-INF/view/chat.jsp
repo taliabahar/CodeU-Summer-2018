@@ -27,6 +27,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title><%= conversation.getTitle() %></title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
   <style>
@@ -63,7 +64,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= TextStyling.BBCodeToHTML(message.getContent())%></li>
+      <li><strong><%= author %>:</strong> <%= TextStyling.styleTaggedUsers(TextStyling.BBCodeToHTML(TextStyling.emojifyText(message.getContent())))%></li>
     <%
       }
     %>
@@ -80,7 +81,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     </form>
     <div class="BBCodeDropdown">
       <span>BBCode Cheat Sheet</span>
-      <div class="dropdown-content">
+      <div class="BBdropdown-content">
         <ul>
           <li>Bold Text: [b]text[/b]</li>
           <li>Italicize Text: [i]text[/i]</li>

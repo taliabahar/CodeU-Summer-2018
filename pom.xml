@@ -111,6 +111,12 @@
       <artifactId>kefirbb</artifactId>
       <version>1.5</version>
     </dependency>
+
+    <dependency>
+    	<groupId>com.kcthota</groupId>
+    	<artifactId>emoji4j</artifactId>
+    	<version>5.0</version>
+    </dependency>
   </dependencies>
 
   <build>
