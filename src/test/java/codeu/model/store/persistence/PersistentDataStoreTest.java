@@ -3,6 +3,7 @@ package codeu.model.store.persistence;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Notification;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import java.time.Instant;
@@ -69,6 +70,41 @@ public class PersistentDataStoreTest {
     Assert.assertEquals(nameTwo, resultUserTwo.getName());
     Assert.assertEquals(passwordHashTwo, resultUserTwo.getPasswordHash());
     Assert.assertEquals(creationTwo, resultUserTwo.getCreationTime());
+  }
+
+  @Test
+  public void testSaveAndLoadNotifications() throws PersistentDataStoreException {
+    UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+    UUID userOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+    UUID messageOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+    Instant creationOne = Instant.ofEpochMilli(1000);
+    Notification inputNotificationOne = new Notification(idOne, userOne, messageOne, creationOne);
+
+    UUID idTwo = UUID.fromString("10000001-2222-3333-4444-555555555555");
+    UUID userTwo = UUID.fromString("10000001-2222-3333-4444-555555555555");
+    UUID messageTwo = UUID.fromString("10000001-2222-3333-4444-555555555555");
+    Instant creationTwo = Instant.ofEpochMilli(2000);
+    Notification inputNotificationTwo = new Notification(idTwo, userTwo, messageTwo, creationTwo);
+
+    // save
+    persistentDataStore.writeThrough(inputNotificationOne);
+    persistentDataStore.writeThrough(inputNotificationTwo);
+
+    // load
+    List<Notification> resultNotifications = persistentDataStore.loadNotifications();
+
+    // confirm that what we saved matches what we loaded
+    Notification resultNotificationOne = resultNotifications.get(0);
+    Assert.assertEquals(idOne, resultNotificationOne.getId());
+    Assert.assertEquals(userOne, resultNotificationOne.getUserId());
+    Assert.assertEquals(messageOne, resultNotificationOne.getMessageId());
+    Assert.assertEquals(creationOne, resultNotificationOne.getCreationTime());
+
+    Notification resultNotificationTwo = resultNotifications.get(1);
+    Assert.assertEquals(idTwo, resultNotificationTwo.getId());
+    Assert.assertEquals(userTwo, resultNotificationTwo.getUserId());
+    Assert.assertEquals(messageTwo, resultNotificationTwo.getMessageId());
+    Assert.assertEquals(creationTwo, resultNotificationTwo.getCreationTime());
   }
 
   @Test

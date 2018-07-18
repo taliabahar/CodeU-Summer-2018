@@ -27,9 +27,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title><%= conversation.getTitle() %></title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
-
   <style>
     #chat {
       background-color: white;
@@ -64,7 +64,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= TextStyling.BBCodeToHTML(message.getContent())%></li>
+      <li><strong><%= author %>:</strong> <%= TextStyling.styleTaggedUsers(TextStyling.BBCodeToHTML(TextStyling.emojifyText(message.getContent())))%></li>
     <%
       }
     %>
@@ -79,6 +79,25 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         <br/>
         <button type="submit">Send</button>
     </form>
+    <div class="BBCodeDropdown">
+      <span>BBCode Cheat Sheet</span>
+      <div class="BBdropdown-content">
+        <ul>
+          <li>Bold Text: [b]text[/b]</li>
+          <li>Italicize Text: [i]text[/i]</li>
+          <li>Underline Text: [u]text[/u]</li>
+          <li>Strikethrough Text: [s]text[/s]</li>
+          <li>Bullet Text: <br>[list]
+                           <br>[*]Entry 1
+                           <br>[*]Entry 2
+                           <br>[/list]
+          </li>
+          <li>Color Text: [color=#hexcode]text[/color]</li>
+          <li>Post a Link: [url]site link[/url]</li>
+          <li>Post an Image: [img]image link[/img]</li>
+        </ul>
+      </div>
+    </div>
     <% } else { %>
       <p><a href="/login">Login</a> to send a message.</p>
     <% } %>

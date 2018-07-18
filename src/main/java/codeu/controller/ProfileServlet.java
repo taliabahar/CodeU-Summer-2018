@@ -51,9 +51,6 @@ public class ProfileServlet extends HttpServlet {
 		 request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
 	 }
 	 public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 //String requestUrl = request.getRequestURI();
-		 //String userProfile = requestUrl.substring("/profile/".length());
-		 
 		 String username = (String) request.getSession().getAttribute("user");
 		 user = UserStore.getInstance().getUser(username);
 		 
@@ -61,7 +58,7 @@ public class ProfileServlet extends HttpServlet {
 			 String aboutMe = request.getParameter("aboutme");
 			 user.setAboutMe(aboutMe);
 			 UserStore.getInstance().updateUser(user);
-			 response.sendRedirect("/profile/" + username);
+			 response.sendRedirect("/profile");
 		 } 
 	 }
 }

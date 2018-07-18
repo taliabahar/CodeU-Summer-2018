@@ -75,7 +75,7 @@ public class LoginServletTest {
         new User(
             UUID.randomUUID(),
             "test username",
-            "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa",
+            "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa", //Hash for "test password"
             Instant.now());
 
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");

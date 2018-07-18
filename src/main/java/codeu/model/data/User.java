@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
-
 /** Class representing a registered user. */
 public class User {
   private final UUID id;
   private final String name;
   private final String passwordHash;
   private final Instant creation;
-  private  String aboutMe;
+  private List<Notification> notifications;
+  private String aboutMe;
 
   /**
    * Constructs a new User.
@@ -44,6 +44,24 @@ public class User {
     this.passwordHash = passwordHash;
     this.creation = creation;
     this.aboutMe = "";
+    notifications = new ArrayList<>();
+  }
+
+  /** Adds this Notification to this User's list of notifications */
+  public void addNotification(Notification n) {
+    notifications.add(n);
+  }
+
+  /** Returns the List of the Notifications this User has */
+  public List<Notification> getNotifications() {
+    return notifications;
+  }
+
+  /** Removes this Notification from this User
+  * @param n the Notification to be removed
+  */
+  public void removeNotification(Notification n) {
+    notifications.remove(n);
   }
 
   /** Returns the ID of this User. */
@@ -55,7 +73,7 @@ public class User {
   public String getName() {
     return name;
   }
-  
+
   /** Returns the password hash of this User. */
   public String getPasswordHash() {
     return passwordHash;
@@ -65,7 +83,7 @@ public class User {
   public Instant getCreationTime() {
     return creation;
   }
-  
+
   /** Returns the about me of the user */
   public String getAboutMe(){
     return aboutMe;
@@ -75,5 +93,4 @@ public class User {
   public void setAboutMe (String aboutMe){
     this.aboutMe = aboutMe;
   }
-  
 }

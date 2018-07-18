@@ -13,14 +13,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Load Test Data</title>
+  <title>Admin</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
+  <%@ page import="java.util.Map" %>
+
+  <% Map<String, String> stats = (Map<String, String>) request.getAttribute("statistics map");
+  System.out.println(stats);%>
+
   <%@ include file = "/WEB-INF/view/header.jsp" %>
 
   <div id="container">
+
+    <h1>Statistics</h1>
+    <ul>
+      <li>Users: <%= stats.get("number of users") %></li>
+      <li>Conversations: <%= stats.get("number of conversations") %></li>
+      <li>Messages: <%= stats.get("number of messages") %></li>
+      <li>Most Active User: <%= stats.get("most active user") %></li>
+      <li>Newest User: <%= stats.get("newest user") %></li>
+      <li>Wordiest User: <%= stats.get("wordiest user") %></li>
+    </ul>
+
+    <hr>
+  <!-- Commenting out the option to load test data
     <h1>Load Test Data</h1>
     <p>This will load a number of users, conversations, and messages for testing
         purposes.</p>
@@ -28,6 +46,7 @@
       <button type="submit" value="confirm" name="confirm">Confirm</button>
       <button type="submit" value="cancel" name="cancel">Do Nothing</button>
     </form>
+  -->
   </div>
 </body>
 </html>

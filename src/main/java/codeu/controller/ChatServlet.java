@@ -17,6 +17,7 @@ package codeu.controller;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Notification;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +76,28 @@ public class ChatServlet extends HttpServlet {
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
+  }
+
+  /**
+  * Parses all the users mentioned with an @username in the message
+  *
+  * @param message the String of the message that was sent, already cleaned
+  * @return A List of Users that were mentioned in the message
+  */
+  private List<User> parseUsersMentioned(String message) {
+    List<User> users = new ArrayList<>();
+    String[] mentions = message.split("@");
+    for (int i = 1; i < mentions.length; i++) { //Start at index 1 because the first string is everything before the first @ character
+      int endIndex = mentions[i].indexOf(' ');
+      if (endIndex != -1) {
+        mentions[i] = mentions[i].substring(0, endIndex);
+      }
+      User user = userStore.getUser(mentions[i]);
+      if (user != null) {
+        users.add(user);
+      }
+    }
+    return users;
   }
 
   /**
@@ -152,6 +176,20 @@ public class ChatServlet extends HttpServlet {
             Instant.now());
 
     messageStore.addMessage(message);
+
+    List<User> mentionedUsers = parseUsersMentioned(cleanedMessageContent);
+    for (User mentionedUser: mentionedUsers) {
+      // Create Notification
+      String text = "You were mentioned in Message " + message.getId().toString();
+      Notification notification =
+        new Notification(
+            UUID.randomUUID(),
+            mentionedUser.getId(),
+            message.getId(),
+            Instant.now());
+      mentionedUser.addNotification(notification);
+      userStore.updateUser(mentionedUser);
+    }
 
     // redirect to a GET request
     response.sendRedirect("/chat/" + conversationTitle);

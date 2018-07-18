@@ -65,6 +65,15 @@ public class MessageStore {
     messages = new ArrayList<>();
   }
 
+  /**
+  * Returns the list of all messages.
+  *
+  * @return List<Message> of all Messages
+  */
+  public List<Message> getAllMessages() {
+    return messages;
+  }
+
   /** Add a new message to the current set of messages known to the application. */
   public void addMessage(Message message) {
     messages.add(message);

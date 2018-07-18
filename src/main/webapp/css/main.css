@@ -14,28 +14,30 @@
  */
 
 body {
-  margin: 0;
-  font-family: sans-serif;
-  line-height: 1.6;
-  font-size: 18px;
-  line-height: 1.6;
   color: #444;
   background-color: #eeeeee;
+  font-family: sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 nav {
-  background-color: #283593;
+  background-color: #A1E4FF;
 }
 
 nav a {
   color: white;
   display: inline-block;
-  font-size: 24px;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
   margin: 15px;
   text-decoration: none;
 }
 
 #navTitle {
+  color: #FDFCB0;
+  font-family: 'Jockey One', sans-serif;
   font-size: 36px;
 }
 
@@ -49,10 +51,89 @@ h1 {
   color: #757575;
 }
 
+#welcome-bullets {
+  font-size: 20px;
+}
+
 input {
   font-size: 18px;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   font-size: 18px;
+}
+
+.BBCodeDropdown {
+  display: inline-block;
+  padding-top: 10px;
+  position: relative;
+}
+
+.BBdropdown-content {
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: none;
+  min-width: 400px;
+  position: absolute;
+  padding: 8px 10px;
+  z-index: 1;
+}
+
+.BBCodeDropdown:hover .BBdropdown-content {
+  display: block;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropbtn {
+  color: white;
+  display: inline-block;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  margin: 15px;
+  text-decoration: none;
+}
+
+.dropdown-content {
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: none;
+  max-height:500px;
+  min-width: 300px;
+  overflow:auto;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropbtn {
+  text-shadow: 2px 2px 8px #FF0000;
+}
+
+.show {
+  display:block;
+}
+
+.userMentioned {
+  font-weight: bold;
+  font-style: italic;
+  color: #444;
+  text-shadow: 2px 1px #A1E4FF;
 }
