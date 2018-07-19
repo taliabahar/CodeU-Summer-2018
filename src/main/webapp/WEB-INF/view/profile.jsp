@@ -38,32 +38,7 @@
 </head>
 <body>
   <%@ include file = "/WEB-INF/view/header.jsp" %>
-
 <div id="container">
-<<<<<<< HEAD
-    <% if(request.getSession().getAttribute("user") != null){ %>
-		
-	  <h1> <%= user.getName() %> 's Profile Page </h1>
-	  <h3>My Bio: </h3> 
-	  <p> <%= user.getAboutMe() %></p>
-      <form action ="/profile" method="POST">
-        <label for = "aboutme" > Write your About Me: </label>
-        <br>
-		<input type= "text" name= "aboutme" id= "aboutme" value="" style= "width: 600px; height: 40px;">
-		<br/>
-        <input type="Submit">
-       </form>
-    <% } %>
-  
-	<h3><%= user.getName() + "'s"%> Sent Messages</h3>
-	<% List<Message> messagesSent = (List) request.getAttribute("messages");
-		for (Message message: messagesSent) { %>
-			<a><strong> <%=message.getTime() %> </strong> : <%= message.getContent() %></a>
-			<br/>
-	<% } %>
-	
-</div>  
-=======
   <% if(request.getSession().getAttribute("user") != null){ %>
     <h1> <%= user.getName() %> 's Profile Page </h1>
     <h3>My Bio: </h3>
@@ -76,7 +51,13 @@
       <input type="Submit">
     </form>
   <% } %>
+  <h3><%= user.getName() + "'s"%> Sent Messages</h3>
+	<% List<Message> messagesSent = (List<Message>) request.getAttribute("messages");
+	if (messagesSent != null && !messagesSent.isEmpty()){	
+		for (Message message: messagesSent) { %>
+			<a><strong> <%=message.getTime() %> </strong> : <%= message.getContent() %></a>
+			<br/>
+	<% }} %>
 </div>
->>>>>>> 61af49603fdfb9b1adacdf58a02cc9fd39c8b9c1
 </body>
 </html>

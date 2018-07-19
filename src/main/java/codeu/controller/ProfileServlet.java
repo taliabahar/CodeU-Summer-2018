@@ -41,8 +41,11 @@ public class ProfileServlet extends HttpServlet {
 	 
 	 @Override 
 	 public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+		 String username = (String) request.getSession().getAttribute("user");
+		 user = UserStore.getInstance().getUser(username);
+		 
 		 UUID userid = user.getId();
+		 System.out.println("---------");
 		 MessageStore message = MessageStore.getInstance();
 		 List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
 		 request.setAttribute("user", user);
