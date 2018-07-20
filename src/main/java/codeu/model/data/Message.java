@@ -76,7 +76,7 @@ public class Message {
   public String getTime() {
   	LocalDateTime localDate = LocalDateTime.ofInstant(creation, ZoneId.systemDefault());
   	int hr = localDate.getHour();
-  	Boolean AM=true;
+  	boolean AM=true;
   	
   	if (hr > 12) {
   		hr = hr % 12;

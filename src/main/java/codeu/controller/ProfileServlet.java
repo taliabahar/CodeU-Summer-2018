@@ -24,12 +24,11 @@ public class ProfileServlet extends HttpServlet {
 	private UserStore userStore;
 	
 	@Override
-
-  public void init() throws ServletException {
+	public void init() throws ServletException {
 		super.init();
 		setMessageStore(MessageStore.getInstance());
 		setUserStore(UserStore.getInstance());
-	}
+		}
 	
 	void setMessageStore(MessageStore messageStore) {
     this.messageStore = messageStore;
@@ -39,29 +38,30 @@ public class ProfileServlet extends HttpServlet {
     this.userStore = userStore;
     }
 	 
-	 @Override 
-	 public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 String username = (String) request.getSession().getAttribute("user");
-		 user = UserStore.getInstance().getUser(username);
+	 @Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String username = (String) request.getSession().getAttribute("user");
+		user = UserStore.getInstance().getUser(username);
 		 
-		 UUID userid = user.getId();
-		 System.out.println("---------");
-		 MessageStore message = MessageStore.getInstance();
-		 List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
-		 request.setAttribute("user", user);
-		 request.setAttribute("messages", messagesSent);
+		UUID userid = user.getId();
+		System.out.println("---------");
+		MessageStore message = MessageStore.getInstance();
+		List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
+		request.setAttribute("user", user);
+		request.setAttribute("messages", messagesSent);
 		 
-		 request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
-	 }
-	 public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 String username = (String) request.getSession().getAttribute("user");
-		 user = UserStore.getInstance().getUser(username);
-		 
-		 if(username != null){
-			 String aboutMe = request.getParameter("aboutme");
-			 user.setAboutMe(aboutMe);
-			 UserStore.getInstance().updateUser(user);
-			 response.sendRedirect("/profile");
-		 } 
-	 }
+		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
+	}
+	 
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String username = (String) request.getSession().getAttribute("user");
+		user = UserStore.getInstance().getUser(username);
+	
+		if(username != null){
+			String aboutMe = request.getParameter("aboutme");
+			user.setAboutMe(aboutMe);
+			UserStore.getInstance().updateUser(user);
+			response.sendRedirect("/profile");
+			}
+		}
 }
