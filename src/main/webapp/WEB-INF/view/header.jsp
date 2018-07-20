@@ -30,7 +30,7 @@
     <a href="/login">Login</a>
   <% } %>
   <a href="/conversations">Conversations</a>
-   <a href="/profile">Profile</a>
+  <a href="/profile">Profile</a>
   <a href="/about.jsp">About</a>
   <% if(request.getSession().getAttribute("admin") != null){ %>
     <a href="/admin">Admin</a>
