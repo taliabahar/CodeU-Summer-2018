@@ -35,15 +35,7 @@
         This Chat App represents a combination of the unique skill sets we came into the prgram with in conjunction with the
         new knowledge we gained from our Google mentors (Shoutout Edrei Chua), peers, and each other. Over the course of
         this program we worked on enhancing user profile pages and implementing a notification system
-        for when users are tageed in chat messages. 
-      </p>
-
-      <p>
-        This is your code now. Get familiar with it and get comfortable
-        working with your team to plan and make changes. Start by updating the
-        homepage and this about page to tell your users more about your team.
-        This page should also be used to describe the features and improvements
-        you've added.
+        for when users are tageed in chat messages.
       </p>
     </div>
   </div>

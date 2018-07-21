@@ -63,13 +63,10 @@ a {
   text-decoration: none;
 }
 
-<<<<<<< HEAD
 #chatInput{
   margin-top: 10px;
 }
 
-=======
->>>>>>> 61af49603fdfb9b1adacdf58a02cc9fd39c8b9c1
 button {
   border-radius: 40px;
   font-size: 18px;
@@ -141,14 +138,8 @@ button {
 }
 
 .userMentioned {
-<<<<<<< HEAD
-  color: #444;
-  font-style: italic;
-  font-weight: bold;
-=======
   font-weight: bold;
   font-style: italic;
   color: #444;
->>>>>>> 61af49603fdfb9b1adacdf58a02cc9fd39c8b9c1
   text-shadow: 2px 1px #A1E4FF;
 }
