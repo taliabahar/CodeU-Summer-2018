@@ -16,8 +16,10 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
-import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 
 /** Class representing a registered user. */
 public class User {
