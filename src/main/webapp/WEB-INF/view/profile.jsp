@@ -18,6 +18,11 @@
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%@ page import="codeu.model.data.User" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.time.Instant" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.ZoneId" %>
+<%@ page import="codeu.model.data.Message" %>
 
 
 <%
@@ -33,7 +38,6 @@
 </head>
 <body>
   <%@ include file = "/WEB-INF/view/header.jsp" %>
-
 <div id="container">
   <% if(request.getSession().getAttribute("user") != null){ %>
     <h1> <%= user.getName() %> 's Profile Page </h1>
@@ -47,6 +51,13 @@
       <input type="Submit">
     </form>
   <% } %>
+  <h3><%= user.getName() + "'s"%> Sent Messages</h3>
+	<% List<Message> messagesSent = (List<Message>) request.getAttribute("messages");
+	if (messagesSent != null && !messagesSent.isEmpty()){	
+		for (Message message: messagesSent) { %>
+			<a><strong> <%=message.getTime() %> </strong> : <%= message.getContent() %></a>
+			<br/>
+	<% }} %>
 </div>
 </body>
 </html>

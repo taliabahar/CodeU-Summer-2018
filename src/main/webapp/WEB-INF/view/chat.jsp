@@ -75,7 +75,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
     <% if (request.getSession().getAttribute("user") != null) { %>
     <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-        <input type="text" name="message">
+        <input id="chatInput" type="text" name="message">
         <br/>
         <button type="submit">Send</button>
     </form>
@@ -93,8 +93,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
                            <br>[/list]
           </li>
           <li>Color Text: [color=#hexcode]text[/color]</li>
-          <li>Post a Link: [url]site link[/url]</li>
-          <li>Post an Image: [img]image link[/img]</li>
         </ul>
       </div>
     </div>

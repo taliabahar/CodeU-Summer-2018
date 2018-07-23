@@ -48,7 +48,7 @@ nav a {
 }
 
 h1 {
-  color: #757575;
+  color: #551a8b
 }
 
 #welcome-bullets {
@@ -63,8 +63,14 @@ a {
   text-decoration: none;
 }
 
+#chatInput{
+  margin-top: 10px;
+}
+
 button {
+  border-radius: 40px;
   font-size: 18px;
+  padding: 5px 10px 5px 10px;
 }
 
 .BBCodeDropdown {
