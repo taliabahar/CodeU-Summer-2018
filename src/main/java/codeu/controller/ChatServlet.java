@@ -18,9 +18,11 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Notification;
+import codeu.style.TextStyling;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.NotificationStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -45,6 +47,9 @@ public class ChatServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  /** Store class that gives access to Notifications. */
+  private NotificationStore notificationStore;
+
   /** Set up state for handling chat requests. */
   @Override
   public void init() throws ServletException {
@@ -52,6 +57,7 @@ public class ChatServlet extends HttpServlet {
     setConversationStore(ConversationStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
+    setNotificationStore(NotificationStore.getInstance());
   }
 
   /**
@@ -79,6 +85,14 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
+   * Sets the NotificationStore used by this servlet. This function provides a common setup method for use
+   * by the test framework or the servlet's init() function.
+   */
+  void setNotificationStore(NotificationStore notificationStore) {
+    this.notificationStore = notificationStore;
+  }
+
+  /**
   * Parses all the users mentioned with an @username in the message
   *
   * @param message the String of the message that was sent, already cleaned
@@ -86,16 +100,9 @@ public class ChatServlet extends HttpServlet {
   */
   private List<User> parseUsersMentioned(String message) {
     List<User> users = new ArrayList<>();
-    String[] mentions = message.split("@");
-    for (int i = 1; i < mentions.length; i++) { //Start at index 1 because the first string is everything before the first @ character
-      int endIndex = mentions[i].indexOf(' ');
-      if (endIndex != -1) {
-        mentions[i] = mentions[i].substring(0, endIndex);
-      }
-      User user = userStore.getUser(mentions[i]);
-      if (user != null) {
-        users.add(user);
-      }
+    List<String> names = TextStyling.parseValidUsers(message);
+    for (String name : names) {
+      users.add(userStore.getUser(name));
     }
     return users;
   }
@@ -188,6 +195,7 @@ public class ChatServlet extends HttpServlet {
             message.getId(),
             Instant.now());
       mentionedUser.addNotification(notification);
+      notificationStore.addNotification(notification);
       userStore.updateUser(mentionedUser);
     }
 

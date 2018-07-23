@@ -18,10 +18,12 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Notification;
+import codeu.style.TextStyling;
 import org.mindrot.jbcrypt.BCrypt;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.NotificationStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.times;
 
 public class ChatServletTest {
 
@@ -48,6 +51,7 @@ public class ChatServletTest {
   private ConversationStore mockConversationStore;
   private MessageStore mockMessageStore;
   private UserStore mockUserStore;
+  private NotificationStore mockNotificationStore;
 
   @Before
   public void setup() {
@@ -70,6 +74,11 @@ public class ChatServletTest {
 
     mockUserStore = Mockito.mock(UserStore.class);
     chatServlet.setUserStore(mockUserStore);
+
+    mockNotificationStore = Mockito.mock(NotificationStore.class);
+    chatServlet.setNotificationStore(mockNotificationStore);
+
+    TextStyling.setUserStore(mockUserStore);
   }
 
   @Test
@@ -217,11 +226,11 @@ public class ChatServletTest {
   @Test
   public void testDoPost_AddsNotificationsFromMentions() throws IOException, ServletException {
       Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
-      Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+      Mockito.when(mockSession.getAttribute("user")).thenReturn("testUsername");
 
       User mockUser1 = Mockito.mock(User.class);
       User mockUser2 = Mockito.mock(User.class);
-      Mockito.when(mockUserStore.getUser("test_username")).thenReturn(mockUser1);
+      Mockito.when(mockUserStore.getUser("testUsername")).thenReturn(mockUser1);
       Mockito.when(mockUserStore.getUser("user1")).thenReturn(mockUser2);
 
       Conversation fakeConversation =
@@ -229,7 +238,7 @@ public class ChatServletTest {
       Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
           .thenReturn(fakeConversation);
 
-      Mockito.when(mockRequest.getParameter("message")).thenReturn("@user1 and @test_username are valid users and should generate notifications but @nonexistent_user should not.");
+      Mockito.when(mockRequest.getParameter("message")).thenReturn("@user1 and @testUsername are valid users and should generate notifications but @nonexistentUser should not.");
 
       chatServlet.doPost(mockRequest, mockResponse);
 
@@ -243,6 +252,16 @@ public class ChatServletTest {
       ArgumentCaptor<Notification> notificationArgumentCaptor2 = ArgumentCaptor.forClass(Notification.class);
       Mockito.verify(mockUser2).addNotification(notificationArgumentCaptor2.capture());
       Assert.assertEquals(messageArgumentCaptor.getValue().getId(), notificationArgumentCaptor2.getValue().getMessageId());
+
+      ArgumentCaptor<Notification> notificationArgumentCaptor3 = ArgumentCaptor.forClass(Notification.class);
+      Mockito.verify(mockNotificationStore, times(2)).addNotification(notificationArgumentCaptor3.capture());
+      List<Notification> addedNotifications = notificationArgumentCaptor3.getAllValues();
+      Assert.assertEquals(messageArgumentCaptor.getValue().getId(), addedNotifications.get(0).getMessageId());
+      Assert.assertEquals(messageArgumentCaptor.getValue().getId(), addedNotifications.get(1).getMessageId());
+
+    /*  ArgumentCaptor<Notification> notificationArgumentCaptor4 = ArgumentCaptor.forClass(Notification.class);
+      Mockito.verify(mockNotificationStore).addNotification(notificationArgumentCaptor4.capture());
+      Assert.assertEquals(messageArgumentCaptor.getValue().getId(), notificationArgumentCaptor4.getValue().getMessageId());*/
 
       Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
 
