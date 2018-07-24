@@ -38,19 +38,22 @@
     <a href="/login">Login</a>
   <% } %>
   <a href="/conversations">Conversations</a>
+  <% if(request.getSession().getAttribute("user") != null){ %>
   <a href="/profile">Profile</a>
+  <% } %>
   <a href="/about.jsp">About</a>
   <% if(request.getSession().getAttribute("admin") != null){ %>
     <a href="/admin">Admin</a>
   <% } %>
-  <% if(request.getSession().getAttribute("user") != null){ %>
+  <% UserStore userStore = UserStore.getInstance();
+  MessageStore messageStore = MessageStore.getInstance();
+  ConversationStore conversationStore = ConversationStore.getInstance();
+  User user = userStore.getUser((String) request.getSession().getAttribute("user"));
+  if(request.getSession().getAttribute("user") != null){ %>
   <div class="dropdown">
     <div onclick="dropdownMenu()" class="dropbtn" > Notifications</div>
     <div id="notificationDropdown" class="dropdown-content">
-      <% UserStore userStore = UserStore.getInstance();
-      MessageStore messageStore = MessageStore.getInstance();
-      ConversationStore conversationStore = ConversationStore.getInstance();
-      User user = userStore.getUser((String) request.getSession().getAttribute("user"));
+      <%
       for (Notification n : user.getNotifications()) {
         Message m = messageStore.getMessage(n.getMessageId());
         Conversation c = conversationStore.getConversation(m.getConversationId());
