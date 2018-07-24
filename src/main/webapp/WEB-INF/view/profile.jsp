@@ -24,12 +24,6 @@
 <%@ page import="java.time.ZoneId" %>
 <%@ page import="codeu.model.data.Message" %>
 
-
-<%
-	UserStore userStore = UserStore.getInstance();
-	User user = userStore.getUser((String)request.getSession().getAttribute("user"));
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,14 +44,14 @@
       <br/>
       <input type="Submit">
     </form>
-  <% } %>
   <h3><%= user.getName() + "'s"%> Sent Messages</h3>
 	<% List<Message> messagesSent = (List<Message>) request.getAttribute("messages");
-	if (messagesSent != null && !messagesSent.isEmpty()){	
+	if (messagesSent != null && !messagesSent.isEmpty()){
 		for (Message message: messagesSent) { %>
 			<a><strong> <%=message.getTime() %> </strong> : <%= message.getContent() %></a>
 			<br/>
 	<% }} %>
+	<% } %>
 </div>
 </body>
 </html>
