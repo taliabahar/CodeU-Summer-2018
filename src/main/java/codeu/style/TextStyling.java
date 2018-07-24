@@ -9,8 +9,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.kefirsf.bb.BBProcessorFactory;
 import org.kefirsf.bb.TextProcessor;
+import com.google.common.annotations.VisibleForTesting;
 
 public class TextStyling {
+
+  private static UserStore userStore;
+
+  private static UserStore getUserStore() {
+    if (userStore == null) {
+      userStore = UserStore.getInstance();
+    }
+    return userStore;
+  }
+
+  @VisibleForTesting public static void setUserStore(UserStore uStore) {
+    userStore = uStore;
+  }
+
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to convert the user's entered BBCode into styled text
    *  @param  text         String representing user's original message with BBCode
@@ -52,7 +67,7 @@ public class TextStyling {
         userNames.add(user.substring(1,user.length()));
       }
       for (String userName : userNames) {
-        if(UserStore.getInstance().getUser(userName) != null) {
+        if(getUserStore().getUser(userName) != null) {
           validTaggedUsers.add(userName);
         }
       }
@@ -78,7 +93,7 @@ public class TextStyling {
         userNames.add(user.substring(1,user.length()));
       }
       for (String userName : userNames) {
-        if(UserStore.getInstance().getUser(userName) != null) {
+        if(getUserStore().getUser(userName) != null) {
           validTaggedUsers.add(userName);
         }
       }

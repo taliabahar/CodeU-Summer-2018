@@ -20,6 +20,14 @@
       }
     }
   </script>
+  <%@ page import="java.util.List" %>
+  <%@ page import="codeu.model.data.Conversation" %>
+  <%@ page import="codeu.model.data.User" %>
+  <%@ page import="codeu.model.data.Message" %>
+  <%@ page import="codeu.model.data.Notification" %>
+  <%@ page import="codeu.model.store.basic.UserStore" %>
+  <%@ page import="codeu.model.store.basic.MessageStore" %>
+  <%@ page import="codeu.model.store.basic.ConversationStore" %>
 
 </head>
 <nav>
@@ -39,13 +47,17 @@
   <div class="dropdown">
     <div onclick="dropdownMenu()" class="dropbtn" > Notifications</div>
     <div id="notificationDropdown" class="dropdown-content">
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
-      <a href="#">You were mentioned in ______ chat by @_______</a>
+      <% UserStore userStore = UserStore.getInstance();
+      MessageStore messageStore = MessageStore.getInstance();
+      ConversationStore conversationStore = ConversationStore.getInstance();
+      User user = userStore.getUser((String) request.getSession().getAttribute("user"));
+      for (Notification n : user.getNotifications()) {
+        Message m = messageStore.getMessage(n.getMessageId());
+        Conversation c = conversationStore.getConversation(m.getConversationId());
+        User u = userStore.getUser(m.getAuthorId());
+        %>
+        <a href="/chat/<%= c.getTitle() %>">You were mentioned in <%= c.getTitle() %> Conversation by @<%= u.getName() %></a>
+      <% } %>
     </div>
   </div>
   <% } %>
