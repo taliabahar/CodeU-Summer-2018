@@ -42,7 +42,13 @@ public class ProfileServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String username = (String) request.getSession().getAttribute("user");
 		user = UserStore.getInstance().getUser(username);
-		 
+		
+		if (user == null) {
+	    System.out.println("Not logged in " + username);
+      response.sendRedirect("/login");
+		  return;
+	  }
+		
 		UUID userid = user.getId();
 		MessageStore message = MessageStore.getInstance();
 		List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
