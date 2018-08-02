@@ -40,17 +40,22 @@ public class ProfileServlet extends HttpServlet {
 
 	 @Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		if (request.getSession().getAttribute("user") != null) {
-			String username = (String) request.getSession().getAttribute("user");
-			user = userStore.getUser(username);
-
-			UUID userid = user.getId();
-			List<Message> messagesSent = messageStore.getMessagesByUser(userid); //get the users messages
-			request.setAttribute("user", user);
-			request.setAttribute("messages", messagesSent);
-
-			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
-		}
+		String username = (String) request.getSession().getAttribute("user");
+		user = UserStore.getInstance().getUser(username);
+		
+		if (user == null) {
+	    System.out.println("Not logged in " + username);
+      response.sendRedirect("/login");
+		  return;
+	  }
+		
+		UUID userid = user.getId();
+		MessageStore message = MessageStore.getInstance();
+		List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
+		request.setAttribute("user", user);
+		request.setAttribute("messages", messagesSent);
+		 
+		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
