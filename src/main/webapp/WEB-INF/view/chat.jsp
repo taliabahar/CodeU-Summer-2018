@@ -64,7 +64,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= TextStyling.styleTaggedUsers(TextStyling.BBCodeToHTML(TextStyling.emojifyText(message.getContent())))%></li>
+      <li><strong><%= author %>:</strong> <%= TextStyling.styleText(message.getContent())%></li>
     <%
       }
     %>

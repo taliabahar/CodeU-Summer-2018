@@ -27,6 +27,18 @@ public class TextStyling {
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to give styling properties to user messages(BBCode,Emojis,Tags)
+   *  @param  text         String representing user's original message
+   *  @return String with new styling properties
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  public static String styleText(String text){
+    String newString = TextStyling.BBCodeToHTML(text);
+    newString = TextStyling.emojifyText(newString);
+    newString = TextStyling.styleTaggedUsers(newString);
+    return newString;
+  }
+
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to convert the user's entered BBCode into styled text
    *  @param  text         String representing user's original message with BBCode
    *  @return String that has replaced the BBCode with HTML so it can be implemented in chat.jsp
@@ -46,7 +58,6 @@ public class TextStyling {
       String emojified = EmojiUtils.emojify(text);
       return emojified;
     }
-
 
    /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     *  Method to parse valid usernames mentioned in the chat
@@ -80,23 +91,7 @@ public class TextStyling {
     *  @return String with a span wrapped around tagged usernames to assign it special styling properties
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public static String styleTaggedUsers(String text) {
-      List<String> taggedUsers = new ArrayList<>();
-      List<String> userNames = new ArrayList<>();
-      List<String> validTaggedUsers = new ArrayList<>();
-      String pattern = "@[A-Za-z0-9]*";
-      Pattern r = Pattern.compile(pattern);
-      Matcher m = r.matcher(text);
-      while (m.find( )) {
-        taggedUsers.add(m.group(0) );
-      }
-      for (String user : taggedUsers) {
-        userNames.add(user.substring(1,user.length()));
-      }
-      for (String userName : userNames) {
-        if(getUserStore().getUser(userName) != null) {
-          validTaggedUsers.add(userName);
-        }
-      }
+      List<String> validTaggedUsers = parseValidUsers(text);
       String editedText = text;
       for (String user : validTaggedUsers) {
         String userWithTag = "@" + user;
