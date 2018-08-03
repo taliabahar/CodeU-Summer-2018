@@ -48,7 +48,7 @@ public class ProfileServlet extends HttpServlet {
       response.sendRedirect("/login");
 		  return;
 	  }
-		
+		else{
 		UUID userid = user.getId();
 		MessageStore message = MessageStore.getInstance();
 		List<Message> messagesSent = message.getMessagesByUser(userid); //get the users messages
@@ -56,6 +56,7 @@ public class ProfileServlet extends HttpServlet {
 		request.setAttribute("messages", messagesSent);
 		 
 		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);     
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
